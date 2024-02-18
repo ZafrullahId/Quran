@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Quran.ViewModels"
+             xmlns:m="clr-namespace:Quran.Domain;assembly=Quran.Domain"
+             x:DataType="vm:VersesViewModel"
+             x:Class="Quran.Views.VersesPage"
+             x:Name="title"
+             BackgroundImageSource="background_verses.jpg">
+    
+        <Grid 
+         Padding="5"
+        RowDefinitions="*"
+        ColumnDefinitions="*">
+            <!--<Image Source="background_verses.jpg" Aspect="AspectFill" IsVisible="True" />
+            <Image
+                Source="bismillah.jpg"
+                HeightRequest="70"
+                HorizontalOptions="Center" />-->
+
+            <CollectionView
+            x:Name="contactsCollection"
+            ItemsSource="{Binding Chapter}"
+            Grid.Row="1"
+            Grid.Column="0">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:VerseInfo">
+
+                    <StackLayout>
+                        <StackLayout>
+                            <Frame Margin="0,5,0,5" BackgroundColor="Gainsboro">
+                                <StackLayout Orientation="Vertical" Spacing="5">
+                                    <Label FontSize="18" FlowDirection="RightToLeft"  TextColor="Black" Text="{Binding Text}"></Label>
+                                    <Label TextColor="Black" Text="{Binding Translation}"></Label>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+   
+</ContentPage>

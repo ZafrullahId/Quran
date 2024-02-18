@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Quran.ViewModels"
+             xmlns:m="clr-namespace:Quran.Domain;assembly=Quran.Domain"
+             x:DataType="vm:ChaptersViewModel"
+             x:Class="Quran.Views.ChaptersPage"
+             BackgroundImageSource="background_verses.jpg"
+             Title="                         Chapters">
+
+    <Grid 
+         Padding="5"
+        RowDefinitions="*"
+        ColumnDefinitions="*">
+
+        <CollectionView
+            x:Name="ChapterCollection"
+            ItemsSource="{Binding Chapters}"
+            Grid.Row="1"
+            Grid.Column="0"
+           SelectionMode="Single"
+           SelectionChanged="OnCollectionViewSelectionChanged">
+                        
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="m:Chapter">
+
+                    <StackLayout>
+                        <StackLayout>
+                            <Frame Margin="0,5,0,5" BackgroundColor="Gainsboro">
+                                <StackLayout Orientation="Vertical" Spacing="5">
+                                    <Label FontSize="Medium" TextColor="Black" Text="{Binding ArabicName}" FlowDirection="RightToLeft"></Label>
+                                    <Label TextColor="Black" Text="{Binding EnglishName}"></Label>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
