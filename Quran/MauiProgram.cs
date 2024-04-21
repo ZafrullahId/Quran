@@ -46,7 +46,6 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IChapterRepository, ChapterRepository>();
         builder.Services.AddSingleton<IChapterService, ChapterService>();
-        builder.Services.AddSingleton<IAudioService, AudioService>();
 
         builder.Services.AddSingleton<VersesViewModel>();
         builder.Services.AddSingleton<ChapterViewModel>();
