@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Quran</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -49,12 +49,48 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\AlmendraSC-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Amiri-Bold.ttf" />
+	  <None Remove="Resources\Fonts\Amiri-BoldItalic.ttf" />
+	  <None Remove="Resources\Fonts\Amiri-Italic.ttf" />
+	  <None Remove="Resources\Fonts\Amiri-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Lateef-Bold.ttf" />
+	  <None Remove="Resources\Fonts\Lateef-ExtraBold.ttf" />
+	  <None Remove="Resources\Fonts\Lateef-ExtraLight.ttf" />
+	  <None Remove="Resources\Fonts\Lateef-Light.ttf" />
+	  <None Remove="Resources\Fonts\Lateef-Medium.ttf" />
+	  <None Remove="Resources\Fonts\Lateef-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Lateef-SemiBold.ttf" />
 	  <None Remove="Resources\Images\background_verses.jpeg" />
-	  <None Remove="Resources\Images\bismillah.png" />
+	  <None Remove="Resources\Images\bismillah_rahman_raheem.png" />
+	  <None Remove="Resources\Images\bismillah_rahman_raheem_croped.png" />
+	  <None Remove="Resources\Images\bookmark_icon.png" />
+	  <None Remove="Resources\Images\download.png" />
+	  <None Remove="Resources\Images\gear_settings.svg" />
+	  <None Remove="Resources\Images\hadith_book.png" />
+	  <None Remove="Resources\Images\kahaba.jpg" />
+	  <None Remove="Resources\Images\kahaba1.jpg" />
+	  <None Remove="Resources\Images\mosque.png" />
+	  <None Remove="Resources\Images\music_icon.png" />
+	  <None Remove="Resources\Images\pause.png" />
+	  <None Remove="Resources\Images\play_backward.png" />
+	  <None Remove="Resources\Images\play_forward.png" />
+	  <None Remove="Resources\Images\play_icon.png" />
+	  <None Remove="Resources\Images\quran_audio.png" />
+	  <None Remove="Resources\Images\quran_reading.png" />
+	  <None Remove="Resources\Images\rewind.png" />
+	  <None Remove="Resources\Images\search.svg" />
+	  <None Remove="Resources\Images\search_icon.svg" />
+	  <None Remove="Resources\Images\search_small.svg" />
+	  <None Remove="Resources\Images\settings_icon.png" />
+	  <None Remove="Resources\Images\speaker.png" />
+	  <None Remove="Resources\Raw\juzindex.json" />
+	  <None Remove="Resources\Raw\surahindex.json" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Maui" Version="2.0.0" />
+	  <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="3.1.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 	  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
 	</ItemGroup>
@@ -65,13 +101,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="ViewModels\ChaptersViewModel.xaml">
+	  <MauiXaml Update="Controls\AudioControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ViewModels\VersesViewModel.xaml">
+	  <MauiXaml Update="Views\ChapterAudioPlayerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChaptersPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SearchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\VersesPage.xaml">

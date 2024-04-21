@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Quran.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model="clr-namespace:Quran.Domain;assembly=Quran.Domain"
+             x:DataType="viewmodel:ChapterAudioPlayerViewModel"
+             x:Class="Quran.Views.ChapterAudioPlayerPage"
+             BackgroundColor="#181818"
+             Shell.PresentationMode="ModalAnimated"
+             Title="{Binding Title}">
+
+    <Grid Padding="0">
+        <Grid RowDefinitions="35*,70*" Grid.Row="0" Padding="10">
+            <Grid Grid.Row="0" Padding="0,0,0,10">
+                <Frame Padding="0">
+                    <Grid>
+                        <Grid VerticalOptions="CenterAndExpand"
+                              HorizontalOptions="CenterAndExpand"
+                              Padding="0">
+                            <toolkit:MediaElement x:Name="mediaElement"
+                                                  ShouldAutoPlay="True"
+                                                  ShouldShowPlaybackControls="True"
+                                                  MediaEnded="MediaElement_MediaEnded"
+                                                  MediaOpened="mediaElement_MediaOpened"
+                                                  HorizontalOptions="CenterAndExpand"
+                                                  VerticalOptions="CenterAndExpand"/>
+                        </Grid>
+                    </Grid>
+                </Frame>
+            </Grid>
+            <CollectionView Grid.Row="2" ItemsSource="{Binding Chapters}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Chapter">
+                        <Grid ColumnDefinitions="auto,*">
+
+                            <Frame Grid.Column="1" 
+                                   Margin="5" 
+                                   Padding="5,10" 
+                                   BorderColor="{StaticResource Gray900}"
+                                   BackgroundColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{Binding Id}"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ChapterAudioPlayerViewModel}}, Path=PlayQuranAudioCommand}">
+                                    </TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                                <Grid ColumnDefinitions="60*, 30*,auto">
+                                    <Grid ColumnDefinitions="auto,*">
+                                        <Image WidthRequest="40" HeightRequest="40" VerticalOptions="StartAndExpand" Margin="5,0,0,0" Aspect="Fill" Source="kahaba.jpg"></Image>
+                                        <StackLayout VerticalOptions="Center" Margin="5,0,0,0" Grid.Column="1">
+                                            <Label FontSize="11" Text="{Binding Name}"></Label>
+                                            <Label FontSize="11" TextColor="{StaticResource Gray600}" Text="{Binding EnglishName}"></Label>
+                                            <Label></Label>
+                                        </StackLayout>
+                                    </Grid>
+                                    <Label VerticalOptions="Center" FontSize="10" Grid.Column="1" Text="{Binding Revelation}"></Label>
+                                    <HorizontalStackLayout Grid.Column="2" WidthRequest="50">
+                                        <ImageButton WidthRequest="20" HeightRequest="20" Source="download.png"></ImageButton>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>

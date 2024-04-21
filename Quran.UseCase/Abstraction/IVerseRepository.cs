@@ -9,6 +9,7 @@ namespace Quran.UseCase.Abstraction
 {
     public interface IVerseRepository
     {
+        Task<string> GetAudioVerse(int chapterId, int verseNo);
         Task<Domain.Quran> GetEngVersesByChapterNo(int chapterNo);
         Task<Domain.Quran> GetArabicVersesByChapterNo(int chapterNo);
     }

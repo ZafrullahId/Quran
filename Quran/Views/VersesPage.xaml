@@ -1,46 +1,109 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:Quran.ViewModels"
              xmlns:m="clr-namespace:Quran.Domain;assembly=Quran.Domain"
              x:DataType="vm:VersesViewModel"
              x:Class="Quran.Views.VersesPage"
-             x:Name="title"
+             Title="{Binding Title, StringFormat='{0}'}"
              BackgroundImageSource="background_verses.jpg">
-    
-        <Grid 
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="gear_settings.svg"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <Grid 
          Padding="5"
         RowDefinitions="*"
         ColumnDefinitions="*">
-            <!--<Image Source="background_verses.jpg" Aspect="AspectFill" IsVisible="True" />
-            <Image
-                Source="bismillah.jpg"
-                HeightRequest="70"
-                HorizontalOptions="Center" />-->
 
-            <CollectionView
-            x:Name="contactsCollection"
-            ItemsSource="{Binding Chapter}"
+
+        <CollectionView
+            IsVisible="{Binding IsNotBusy}"
+            x:Name="versesCollection"
+            ItemsSource="{Binding Verses}"
             Grid.Row="1"
             Grid.Column="0">
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="m:VerseInfo">
+            <CollectionView.Header>
+                <Frame BackgroundColor="Gainsboro">
+                    <Grid HorizontalOptions="CenterAndExpand">
+                        <VerticalStackLayout HorizontalOptions="CenterAndExpand" Spacing="4" Padding="5,0,0,20">
+                            <Label TextColor="Black" Text="{Binding Surah.Name}" HorizontalOptions="Center" FontSize="30" FontAttributes="Bold"></Label>
+                            <Label TextColor="Black" Text="{Binding Surah.EnglishName}" FontSize="18" HorizontalOptions="Center"></Label>
+                            <BoxView HeightRequest="1" Margin="0,5,0,5" WidthRequest="250" HorizontalOptions="FillAndExpand" Color="Black" />
+                            <HorizontalStackLayout HorizontalOptions="Center" Padding="0,0,0,20">
+                                <Label TextColor="Black" Text="{Binding Surah.Revelation, StringFormat='{0} - '}" HorizontalOptions="Center"></Label>
+                                <Label TextColor="Black" Text="{Binding Surah.NoOfAyahs, StringFormat=' {0} VERSES'}" HorizontalOptions="Center"></Label>
+                            </HorizontalStackLayout>
+                            <Image Source="bismillah_rahman_raheem_croped.png" IsVisible="{Binding IsChapterHasBismillah}" Aspect="AspectFill"></Image>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="m:VerseInfo">
 
                     <StackLayout>
                         <StackLayout>
-                            <Frame Margin="0,5,0,5" BackgroundColor="Gainsboro">
+                            <Frame Margin="0,5,0,5" BackgroundColor="Gainsboro" BorderColor="Transparent">
                                 <StackLayout Orientation="Vertical" Spacing="5">
-                                    <Label FontSize="18" FlowDirection="RightToLeft"  TextColor="Black" Text="{Binding Text}"></Label>
-                                    <Label TextColor="Black" Text="{Binding Translation}"></Label>
+                                    <Grid>
+                                        <Frame BackgroundColor="Green" CornerRadius="50" Padding="0" BorderColor="Transparent" WidthRequest="30" HeightRequest="30" HorizontalOptions="StartAndExpand">
+                                            <Label Text="{Binding VerseNo}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" TextColor="White" FontSize="15" Padding="0"/>
+                                        </Frame>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                            <ImageButton Source="play_icon.png" WidthRequest="70" HeightRequest="37" HorizontalOptions="End" 
+                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:VersesViewModel}}, Path=PlayVerseCommand}"
+                                                         CommandParameter="{Binding VerseNo}"></ImageButton>
+                                            <ImageButton Source="bookmark_icon.png" WidthRequest="40" HeightRequest="30" HorizontalOptions="End"></ImageButton>
+                                        </StackLayout>
+                                    </Grid>
+                                    <Label FontSize="22" FlowDirection="RightToLeft"  
+                                           TextColor="Black" 
+                                           Text="{Binding ArabicText}"
+                                           FontFamily="AmiriRegular"
+                                           LineHeight="1.3"
+                                           CharacterSpacing="1"
+                                           ></Label>
+                                    <Label TextColor="Black" FontSize="17" LineHeight="1.3" Text="{Binding Translation}"></Label>
                                 </StackLayout>
                             </Frame>
                         </StackLayout>
                     </StackLayout>
                 </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Grid>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <Frame BackgroundColor="Gainsboro" Padding="20,10,10,10">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer CommandParameter="{Binding Surah.Id}"
+                          Command="{Binding Source={RelativeSource AncestorType={x:Type vm:VersesViewModel}}, Path=GoToNextChapterVersesCommand}">
+                        </TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                    <Grid>
+                        <Label TextColor="Black" FontSize="17" Text="Next Surah" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"></Label>
+                        <Label TextColor="Black" FontSize="22" Text="{Binding Surah.ArabicName}" FontFamily="AmiriRegular" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"></Label>
+                    </Grid>
+                </Frame>
+            </CollectionView.Footer>
 
-   
+        </CollectionView>
+
+        <toolkit:MediaElement x:Name="mediaElement"
+                      IsVisible="Hidden"
+                      ShouldAutoPlay="False"/>
+
+        <ActivityIndicator
+            IsVisible="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="CenterAndExpand"
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"/>
+
+    </Grid>
+
+
 </ContentPage>

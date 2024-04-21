@@ -9,7 +9,7 @@ namespace Quran.Domain
         [JsonProperty("verse")]
         public int VerseNo { get; set; }
         [JsonProperty("text")]
-        public string Text { get; set; }
+        public string ArabicText { get; set; }
         public string Translation { get; set; }
     }
 }

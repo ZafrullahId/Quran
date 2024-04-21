@@ -14,6 +14,9 @@ namespace Quran.Domain
         public string Name {  get; set; }
         public string ArabicName {  get; set; }
         public string EnglishName {  get; set; }
+        public string Revelation {  get; set; }
+        public List<object> Verses {  get; set; }
+        public int NoOfAyahs {  get; set; }
     }
     public class ChaptersInfo
     {

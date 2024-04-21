@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Quran.ViewModels"
+             x:DataType="vm:HomeViewModel"
+             x:Class="Quran.Views.MainPage"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="*" Margin="10,20,10,10">
+        <!--<Frame Grid.Row="0">
+
+        </Frame>-->
+
+        <Grid Grid.Row="0" Margin="0,50,0,40" Padding="10" HorizontalOptions="CenterAndExpand">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Frame Grid.Row="0" Grid.Column="0" Margin="5" BackgroundColor="Gainsboro">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=GoToChaptersPageCommand}">
+                    </TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                    <Image Source="quran_reading.png"/>
+                    <Label TextColor="Black" Text="Read Quran" HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </Frame>
+
+            <Frame Grid.Row="0" Grid.Column="1" Margin="5" BackgroundColor="Gainsboro">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=GoToChapterAudioPageCommand}">
+                    </TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                    <Image Source="quran_audio.png"/>
+                    <Label TextColor="Black" Text="Audio Quran" HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </Frame>
+
+            <Frame Grid.Row="1" Grid.Column="0" Margin="5" BackgroundColor="Gainsboro">
+                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                    <Image Source="mosque.png"/>
+                    <Label TextColor="Black" Text="Salaat" HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </Frame>
+
+            <Frame Grid.Row="1" Grid.Column="1" Margin="5" BackgroundColor="Gainsboro">
+                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                    <Image Source="hadith_book.png"/>
+                    <Label TextColor="Black" Text="Hadith" HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

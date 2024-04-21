@@ -10,5 +10,7 @@ namespace Quran.UseCase.Abstraction
     public interface IChapterService
     {
         Task<List<Chapter>> GetAllChapters();
+        Task<Chapter> GetChapterAsync(int id);
+        Task<List<Chapter>> GetAllChapterByFilterText(string filterText);
     }
 }

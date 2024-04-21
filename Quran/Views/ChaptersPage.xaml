@@ -2,40 +2,158 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Quran.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:m="clr-namespace:Quran.Domain;assembly=Quran.Domain"
-             x:DataType="vm:ChaptersViewModel"
+             xmlns:controls="clr-namespace:Quran.Controls"
+             x:DataType="vm:ChapterViewModel"
              x:Class="Quran.Views.ChaptersPage"
              BackgroundImageSource="background_verses.jpg"
-             Title="                         Chapters">
+             Title="{Binding Title}"
+             >
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Search" IconImageSource="search_small.svg" Command="{Binding GoToSearchPageCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
 
     <Grid 
-         Padding="5"
-        RowDefinitions="*"
+        Margin="0,5,0,0"
+        Padding="5,0,5,0"
+        RowSpacing="10"
+        RowDefinitions="Auto,*"
         ColumnDefinitions="*">
 
-        <CollectionView
-            x:Name="ChapterCollection"
-            ItemsSource="{Binding Chapters}"
-            Grid.Row="1"
-            Grid.Column="0"
-           SelectionMode="Single"
-           SelectionChanged="OnCollectionViewSelectionChanged">
-                        
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="m:Chapter">
+        <Frame  Grid.Row="0"
+                BackgroundColor="Gainsboro"
+                IsVisible="{Binding IsLastReadChapterSet}"
+                IsClippedToBounds="True"
+                Padding="25,10,9,12"
+                HasShadow="False">
 
-                    <StackLayout>
-                        <StackLayout>
-                            <Frame Margin="0,5,0,5" BackgroundColor="Gainsboro">
-                                <StackLayout Orientation="Vertical" Spacing="5">
-                                    <Label FontSize="Medium" TextColor="Black" Text="{Binding ArabicName}" FlowDirection="RightToLeft"></Label>
-                                    <Label TextColor="Black" Text="{Binding EnglishName}"></Label>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer CommandParameter="{Binding LastReadChapter}"
+                                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ChapterViewModel}}, Path=GotToChapterVersesCommand}">
+                </TapGestureRecognizer>
+            </Frame.GestureRecognizers>
+
+            <Grid ColumnDefinitions="*,*">
+                <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" Margin="20,0,0,0">
+                    <Label TextColor="Black" Text="Tap to continue"></Label>
+                    <Label TextColor="Black" FontSize="25"  Text="{Binding LastReadChapter.ArabicName}" FontFamily="AmiriBoldItalic" />
+                    <Label TextColor="Black" FontSize="17"  Text="Verse - 113"/>
+                </VerticalStackLayout>
+                <Image Grid.Column="1" Source="quran_reading.png" HeightRequest="100" VerticalOptions="CenterAndExpand" WidthRequest="140" Aspect="AspectFill"/>
+            </Grid>
+        </Frame>
+
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" 
+                     Command="{Binding RefreshChaptersCommand}" 
+                     Grid.Row="1"
+                     Grid.Column="0"
+                     >
+
+            <CollectionView
+            ItemsSource="{Binding Chapters}"
+            Margin="0,1"
+            SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:Chapter" >
+
+                        <Frame Margin="0,0,0,1" BackgroundColor="Gainsboro" Padding="10,25,30,20">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ChapterViewModel}}, Path=GotToChapterVersesCommand}">
+                                </TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="auto,*,*" ColumnSpacing="20">
+                                <Frame BackgroundColor="Transparent" Padding="0" BorderColor="Transparent" VerticalOptions="CenterAndExpand">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Polygon Grid.Column="0"
+                                             Points="0,0 15,15 30,0 15,-15"
+                                             Fill="Green"
+                                             Aspect="Fill"
+                                             HeightRequest="45"
+                                             WidthRequest="45"
+                                             HorizontalOptions="Start" />
+
+                                        <Label Grid.Column="0"
+                                           Text="{Binding Id}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           TextColor="White"
+                                           FontSize="15" />
+                                    </Grid>
+                                </Frame>
+
+                                <StackLayout Orientation="Vertical" Spacing="15" Grid.Column="1">
+                                    <Label TextColor="Black" FontSize="15" Text="{Binding Name}"/>
+                                    <StackLayout Orientation="Horizontal" Spacing="5" Margin="0,0,0,0">
+                                        <Label TextColor="Black" FontSize="13"  Text="{Binding Revelation, StringFormat='{0} -'}" />
+                                        <Label TextColor="Black" FontSize="13"  Text="{Binding NoOfAyahs, StringFormat='{0} Ayahs'}" />
+                                    </StackLayout>
                                 </StackLayout>
-                            </Frame>
-                        </StackLayout>
+
+                                <Label FontSize="22"
+                                           Grid.Column="2"
+                                           TextColor="Black" 
+                                           FlowDirection="RightToLeft"
+                                           Text="{Binding ArabicName}" 
+                                           FontFamily="AmiriItalic"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Mdeia Start -->
+
+        <!--<Grid IsVisible="{Binding IsMedialPlayedLast}" RowDefinitions="*,auto" Grid.Row="1" Padding="10" HeightRequest="100" VerticalOptions="End" BackgroundColor="{StaticResource Gray600}">
+            <Grid ColumnDefinitions="auto,*">
+                <Grid ColumnDefinitions="50,*">
+                    <Image HeightRequest="50" Aspect="Fill" WidthRequest="50" Source="kahaba.jpg"></Image>
+                    <StackLayout Grid.Column="1" VerticalOptions="Center" Margin="10,0">
+                        <Label Text="Ikak"></Label>
+                        <Label FontSize="11" TextColor="{StaticResource Gray500}" Text="Startvoz"></Label>
                     </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <HorizontalStackLayout HorizontalOptions="EndAndExpand">
+                        <ImageButton x:Name="PlayBackBtton" Source="play_backward.png" WidthRequest="30"  Margin="5"></ImageButton>
+                        <ImageButton x:Name="PlayButton" Source="{Binding MediaTogglePlayIcon}" WidthRequest="60" Clicked="PlayButtonClicked" Margin="5"></ImageButton>
+                        <ImageButton x:Name="PlayForwardBtton" Source="play_forward.png" WidthRequest="30" Margin="5"></ImageButton>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1" ColumnDefinitions="*,auto">
+                <ProgressBar x:Name="progressBar" Margin="0" Progress="0.5" ProgressColor="White"></ProgressBar>
+                <Label Grid.Column="1" x:Name="playedTime" Text="{Binding Media.Position,StringFormat='{0:hh\\:mm\\:ss}'}" Margin="10,0" HorizontalOptions="End"></Label>
+            </Grid>
+        </Grid>
+
+        <toolkit:MediaElement x:Name="mediaElement"
+                              IsVisible="Hidden"
+                              ShouldAutoPlay="False"/>-->
+
+        <!-- Mdeia End -->
+
+        <Grid RowDefinitions="*,auto" Grid.Row="1" Padding="10" HeightRequest="90" VerticalOptions="End" BackgroundColor="{StaticResource Gray600}" IsVisible="{Binding IsMedialPlayedLast}">
+            <controls:AudioControl></controls:AudioControl>
+        </Grid>
+
+
+        <ActivityIndicator
+            IsVisible="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="CenterAndExpand"
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"/>
     </Grid>
 </ContentPage>

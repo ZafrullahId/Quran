@@ -9,6 +9,7 @@ namespace Quran.Domain
 {
     public class Quran
     {
-        public List<VerseInfo> Chapter { get; set; }
+        [JsonProperty("chapter")]
+        public List<VerseInfo> Verses { get; set; }
     }
 }

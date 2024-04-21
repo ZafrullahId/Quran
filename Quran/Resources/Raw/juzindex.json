@@ -1,0 +1,154 @@
+{
+  "juzz": [
+    {
+      "id": 30,
+      "name": "Alif Lam Meem",
+      "arabicname": "الٓمٓ"
+    },
+    {
+      "id": 2,
+      "name": "Sayaqool",
+      "arabicname": "سَيَقُولُ"
+    },
+    {
+      "id": 3,
+      "name": "Tilka Rusull",
+      "arabicname": "تِلكَ ٱلرُّسُلُ"
+    },
+    {
+      "id": 4,
+      "name": "Lan Tana Loo",
+      "arabicname": "لَن تَنَالُواْ"
+    },
+    {
+      "id": 5,
+      "name": "Wal Muhsanaat",
+      "arabicname": "وَٱلمُحصَنَٰتُ"
+    },
+    {
+      "id": 6,
+      "name": "Laa yuhibbullah",
+      "arabicname": "لَّا يُحِبُّ"
+    },
+    {
+      "id": 7,
+      "name": "Wa idha sami'uu",
+      "arabicname": "وَإِذَا سَمِعُواْ"
+    },
+    {
+      "id": 8,
+      "name": "Wa law annanaa",
+      "arabicname": "وَلَو أَنَّنَا"
+    },
+    {
+      "id": 9,
+      "name": "Qaala 'l-mala'u",
+      "arabicname": "قَالَ ٱلمَلَأُ"
+    },
+    {
+      "id": 10,
+      "name": "Wa'alamuu",
+      "arabicname": "وَٱعلَمُواْ"
+    },
+    {
+      "id": 11,
+      "name": "Ya'taziruun",
+      "arabicname": "يَعتَذِرُونَ"
+    },
+    {
+      "id": 12,
+      "name": "Wa maa min daabatin",
+      "arabicname": "وَمَا مِن دَآبَّة"
+    },
+    {
+      "id": 13,
+      "name": "Wa maa ubarriu",
+      "arabicname": "وَمَا أُبَرِّئُ"
+    },
+    {
+      "id": 14,
+      "name": "Rubamaa",
+      "arabicname": "رُّبَّمَا"
+    },
+    {
+      "id": 15,
+      "name": "Subhanalladhii",
+      "arabicname": "سُبحَٰنَ ٱلَّذِي"
+    },
+    {
+      "id": 16,
+      "name": "Qaala alam",
+      "arabicname": "قَالَ أَلَم"
+    },
+    {
+      "id": 17,
+      "name": "Iqtaraba",
+      "arabicname": "ٱقتَرَبَ"
+    },
+    {
+      "id": 18,
+      "name": "Qad aflaha",
+      "arabicname": "قَد أَفلَحَ"
+    },
+    {
+      "id": 19,
+      "name": "Wa qaala 'ladhii",
+      "arabicname": "وَقَالَ ٱلَّذِينَ"
+    },
+    {
+      "id": 20,
+      "name": "Amman khalaqa",
+      "arabicname": "أَمَّن خَلَقَ"
+    },
+    {
+      "id": 21,
+      "name": "Otlu ma oohiya",
+      "arabicname": "ٱتلُ مَا أُوحِيَ"
+    },
+    {
+      "id": 22,
+      "name": "Wa-man yaqnut",
+      "arabicname": "وَمَن يَقنُت"
+    },
+    {
+      "id": 23,
+      "name": "Wa maaliya",
+      "arabicname": "وَمَا لِيَ"
+    },
+    {
+      "id": 24,
+      "name": "Fa-man azhlamu",
+      "arabicname": "فَمَن أَظلَمُ"
+    },
+    {
+      "id": 25,
+      "name": "Ilaihi yuraddu",
+      "arabicname": "إِلَيهِۦ يُرَدُّ"
+    },
+    {
+      "id": 26,
+      "name": "Ha Mim",
+      "arabicname": "قَد سَمِعَ"
+    },
+    {
+      "id": 27,
+      "name": "Qaa la fa maa khatbukum",
+      "arabicname": "قَالَ فَمَا خَطبُكُمُۥ"
+    },
+    {
+      "id": 28,
+      "name": "Qad sami'a llahu",
+      "arabicname": "قَد سَمِعَ"
+    },
+    {
+      "id": 29,
+      "name": "Tabaaraka",
+      "arabicname": "تَبَٰرَكَ"
+    },
+    {
+      "id": 30,
+      "name": "Amma",
+      "arabicname": "عَمَّ"
+    }
+  ]
+}
