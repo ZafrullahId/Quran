@@ -5,6 +5,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:m="clr-namespace:Quran.Domain;assembly=Quran.Domain"
              xmlns:controls="clr-namespace:Quran.Controls"
+             xmlns:icon="clr-namespace:Quran.FontAwesomeIcons"
              x:DataType="vm:ChapterViewModel"
              x:Class="Quran.Views.ChaptersPage"
              BackgroundImageSource="background_verses.jpg"
@@ -114,38 +115,47 @@
 
         <!-- Mdeia Start -->
 
-        <!--<Grid IsVisible="{Binding IsMedialPlayedLast}" RowDefinitions="*,auto" Grid.Row="1" Padding="10" HeightRequest="100" VerticalOptions="End" BackgroundColor="{StaticResource Gray600}">
-            <Grid ColumnDefinitions="auto,*">
-                <Grid ColumnDefinitions="50,*">
-                    <Image HeightRequest="50" Aspect="Fill" WidthRequest="50" Source="kahaba.jpg"></Image>
-                    <StackLayout Grid.Column="1" VerticalOptions="Center" Margin="10,0">
-                        <Label Text="Ikak"></Label>
-                        <Label FontSize="11" TextColor="{StaticResource Gray500}" Text="Startvoz"></Label>
-                    </StackLayout>
+        <Grid RowDefinitions="*,auto" Grid.Row="1" Padding="10" HeightRequest="90" VerticalOptions="End" BackgroundColor="{StaticResource Gray600}" IsVisible="{Binding IsMedialPlayedLast}">
+            <Grid RowDefinitions="*,auto">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ChapterViewModel}}, Path=GoToAudioPageCommand}"></TapGestureRecognizer>
+                </Grid.GestureRecognizers>
+                <Grid ColumnDefinitions="auto,*">
+                    <Grid ColumnDefinitions="50,*">
+                        <Image HeightRequest="50" Aspect="Fill" WidthRequest="50" Source="kahaba.jpg"></Image>
+                        <StackLayout Grid.Column="1" VerticalOptions="Center" Margin="10,0">
+                            <Label x:Name="playedSurah" Text=""></Label>
+                            <Label x:Name="playedReciter" FontSize="11" TextColor="{StaticResource Gray500}" Text=""></Label>
+                        </StackLayout>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <HorizontalStackLayout HorizontalOptions="EndAndExpand">
+                            <ImageButton x:Name="PlayBackButton" WidthRequest="20" HeightRequest="20"  Margin="10">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="Fas" Glyph="{x:Static icon:FontIcons.ForwardFast}"></FontImageSource>
+                                </ImageButton.Source>
+                            </ImageButton>
+                            <ImageButton x:Name="PlayButton"  WidthRequest="20" HeightRequest="20" Margin="5" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ChapterViewModel}}, Path=PlayAudioCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="Fas" Glyph="{Binding MediaTogglePlayIcon}"></FontImageSource>
+                                </ImageButton.Source>
+                            </ImageButton>
+                            <ImageButton x:Name="PlayForwardBtton"  Margin="10" WidthRequest="20" HeightRequest="20">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="Fas" Glyph="{x:Static icon:FontIcons.BackwardFast}"></FontImageSource>
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </HorizontalStackLayout>
+                    </Grid>
                 </Grid>
-                <Grid Grid.Column="1">
-                    <HorizontalStackLayout HorizontalOptions="EndAndExpand">
-                        <ImageButton x:Name="PlayBackBtton" Source="play_backward.png" WidthRequest="30"  Margin="5"></ImageButton>
-                        <ImageButton x:Name="PlayButton" Source="{Binding MediaTogglePlayIcon}" WidthRequest="60" Clicked="PlayButtonClicked" Margin="5"></ImageButton>
-                        <ImageButton x:Name="PlayForwardBtton" Source="play_forward.png" WidthRequest="30" Margin="5"></ImageButton>
-                    </HorizontalStackLayout>
+                <Grid Grid.Row="1" ColumnDefinitions="*,auto">
+                    <Label Grid.Column="1" x:Name="playedTime" Text="00:00:00" Margin="10,0" HorizontalOptions="End"></Label>
                 </Grid>
-            </Grid>
-            <Grid Grid.Row="1" ColumnDefinitions="*,auto">
-                <ProgressBar x:Name="progressBar" Margin="0" Progress="0.5" ProgressColor="White"></ProgressBar>
-                <Label Grid.Column="1" x:Name="playedTime" Text="{Binding Media.Position,StringFormat='{0:hh\\:mm\\:ss}'}" Margin="10,0" HorizontalOptions="End"></Label>
             </Grid>
         </Grid>
-
-        <toolkit:MediaElement x:Name="mediaElement"
-                              IsVisible="Hidden"
-                              ShouldAutoPlay="False"/>-->
 
         <!-- Mdeia End -->
 
-        <Grid RowDefinitions="*,auto" Grid.Row="1" Padding="10" HeightRequest="90" VerticalOptions="End" BackgroundColor="{StaticResource Gray600}" IsVisible="{Binding IsMedialPlayedLast}">
-            <controls:AudioControl></controls:AudioControl>
-        </Grid>
 
 
         <ActivityIndicator

@@ -16,10 +16,8 @@ namespace Quran.ViewModels
 {
     public partial class ChapterViewModel : BaseViewModel
     {
-        // put this in the control
         [ObservableProperty]
         bool isMedialPlayedLast;
-        // put this in the control
         [ObservableProperty]
         string mediaTogglePlayIcon;
         [ObservableProperty]
@@ -29,22 +27,22 @@ namespace Quran.ViewModels
         Chapter lastReadChapter;
         public ObservableCollection<Chapter> Chapters { get; }
         private readonly IChapterService chapterService;
-        public ChapterViewModel(IChapterService chapterService)
+        private readonly IAudioService audioService;
+        public ChapterViewModel(IChapterService chapterService, IAudioService audioService)
         {
             Chapters = [];
             this.chapterService = chapterService;
             Title = "Surah Index";
+            this.audioService = audioService;
         }
         public async Task GetAllPreferences()
         {
+            var mediaState = audioService.CheckAudioState();
+            MediaTogglePlayIcon = mediaState ? "\u23f8" : "\u25b6";
             IsMedialPlayedLast = Preferences.Get("IsMedialPlayedLast", false);
-            //if (Preferences.ContainsKey("LastSurahAudioLinkPlayed"))
-            //{
-            //    Media.Source = Preferences.Get("LastSurahAudioLinkPlayed", "");
-            //}
             if (Preferences.ContainsKey("LastReadSurahId") && Preferences.Get("LastReadSurahId", 0) != 0)
             {
-                int lasReadSurahId = Preferences.Get("LastReadSurahId",0);
+                int lasReadSurahId = Preferences.Get("LastReadSurahId", 0);
                 LastReadChapter = Chapters.FirstOrDefault(x => x.Id == lasReadSurahId);
                 IsLastReadChapterSet = true;
             }
@@ -61,7 +59,7 @@ namespace Quran.ViewModels
 
         public async Task LoadChapters()
         {
-            if (IsBusy)
+            if (IsBusy || Chapters.Count == 114)
                 return;
             try
             {
@@ -125,6 +123,31 @@ namespace Quran.ViewModels
         public async Task GoToSearchPage()
         {
             await Shell.Current.GoToAsync(nameof(SearchPage));
+        }
+        [RelayCommand]
+        public async Task PlayAudio()
+        {
+            if (Preferences.ContainsKey("LastSurahAudioLinkPlayed"))
+            {
+                var recentAudioSource = Preferences.Get("LastSurahAudioLinkPlayed", "");
+                var currentMediaPosition = Preferences.Get("CurrentMediaPosition", "");
+                if (!string.IsNullOrEmpty(currentMediaPosition))
+                {
+                    if (TimeSpan.TryParse(currentMediaPosition, out TimeSpan mediaPos))
+                    {
+                        var isPlayed = this.audioService.Play(recentAudioSource, mediaPos);
+                        if (isPlayed)
+                            MediaTogglePlayIcon = "\u23f8";
+                        else
+                            MediaTogglePlayIcon = "\u25b6";
+                    }
+                }
+            }
+        }
+        [RelayCommand]
+        private async Task GoToAudioPage()
+        {
+            await Shell.Current.GoToAsync(nameof(ChapterAudioPlayerPage));
         }
     }
 }

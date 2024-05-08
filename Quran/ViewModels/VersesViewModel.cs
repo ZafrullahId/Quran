@@ -19,18 +19,18 @@ namespace Quran.ViewModels
         public ObservableCollection<VerseInfo> Verses { get; }
         private readonly IVerseService _verseService;
         private readonly IChapterService _chapterService;
-        public VersesViewModel(IVerseService verseService, IChapterService chapterService)
+        private readonly IAudioService _audioService;
+        public VersesViewModel(IVerseService verseService, IChapterService chapterService, IAudioService audioService)
         {
             _verseService = verseService;
-            Verses = new();
+            Verses = [];
             _chapterService = chapterService;
+            _audioService = audioService;
         }
         [ObservableProperty]
         Chapter surah;
         [ObservableProperty]
         bool isChapterHasBismillah;
-        [ObservableProperty]
-        MediaElement media;
         public Chapter Chapter
         {
             set
@@ -45,7 +45,7 @@ namespace Quran.ViewModels
                 }
             }
         }
-        public void SetPreferences()
+        public async Task SetPreferences()
         {
             Preferences.Set("LastReadSurahId", Surah.Id);
         }
@@ -101,14 +101,19 @@ namespace Quran.ViewModels
                 var audioLink = await _verseService.GetAudioVerse(Surah.Id, verseNo);
                 if (audioLink is not null)
                 {
-                    Media.Source = audioLink;
-                    Media.Play();
+                    //this._audioService.Stop();
+                    this._audioService.PlayVerse(audioLink);
                 }
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Error!", $"Unable to load audio: check your connection", "OK");
             }
+        }
+        [RelayCommand]
+        public async Task CopyQuranVerse(VerseInfo copyVerse)
+        {
+            await Clipboard.Default.SetTextAsync($"{copyVerse.ArabicText}\n\n{copyVerse.Translation}\n\nSurah: {Surah.Name}, Verse {copyVerse.VerseNo}");
         }
     }
 

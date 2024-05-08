@@ -11,7 +11,6 @@ public partial class VersesPage : ContentPage
         InitializeComponent();
         _versesViewModel = versesViewModel;
         this.BindingContext = versesViewModel;
-        _versesViewModel.Media = mediaElement;
     }
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
@@ -20,7 +19,7 @@ public partial class VersesPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        _versesViewModel.SetPreferences();
+        _versesViewModel.SetPreferences().GetAwaiter();
         if (Preferences.ContainsKey("LastReadVerse") && Preferences.Get("LastReadVerse", 0) == _versesViewModel.Surah.Id)
         {
             int lastReadVerse = Preferences.Get("LastReadVerse", 0);

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:Quran.ViewModels"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:icon="clr-namespace:Quran.FontAwesomeIcons"
+             xmlns:customControls="clr-namespace:Quran.CustomControls"
              xmlns:model="clr-namespace:Quran.Domain;assembly=Quran.Domain"
              x:DataType="viewmodel:ChapterAudioPlayerViewModel"
              x:Class="Quran.Views.ChapterAudioPlayerPage"
@@ -13,19 +15,53 @@
     <Grid Padding="0">
         <Grid RowDefinitions="35*,70*" Grid.Row="0" Padding="10">
             <Grid Grid.Row="0" Padding="0,0,0,10">
-                <Frame Padding="0">
-                    <Grid>
-                        <Grid VerticalOptions="CenterAndExpand"
-                              HorizontalOptions="CenterAndExpand"
-                              Padding="0">
-                            <toolkit:MediaElement x:Name="mediaElement"
-                                                  ShouldAutoPlay="True"
-                                                  ShouldShowPlaybackControls="True"
-                                                  MediaEnded="MediaElement_MediaEnded"
-                                                  MediaOpened="mediaElement_MediaOpened"
-                                                  HorizontalOptions="CenterAndExpand"
-                                                  VerticalOptions="CenterAndExpand"/>
+                <Frame Padding="10,0,10,20" BackgroundColor="#181818">
+                    <Grid RowDefinitions="*, auto">
+
+                        <Grid Grid.Row="0" ColumnDefinitions="*,auto">
+                            <Label Text="00:00:00" Grid.Column="1" VerticalOptions="EndAndExpand" Margin="5"/>
+                            <Slider x:Name="mediaSlider" 
+                                    MaximumTrackColor="{StaticResource Gray600}" 
+                                    VerticalOptions="EndAndExpand"
+                                    Grid.Row="1" Grid.Column="0"/>
+
                         </Grid>
+
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Grid.Row="0">
+                            <ImageButton  WidthRequest="40" HeightRequest="40"  Margin="10"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ChapterAudioPlayerViewModel}}, Path=SkipBackwardCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="Fas" Glyph="{x:Static icon:FontIcons.BackwardStep}"></FontImageSource>
+                                </ImageButton.Source>
+                            </ImageButton>
+
+                            <ImageButton WidthRequest="35" HeightRequest="40"  Margin="10" 
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ChapterAudioPlayerViewModel}}, Path=Backward_15SecCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="Fas" Glyph="{x:Static icon:FontIcons.ArrowRotateLeft}"></FontImageSource>
+                                </ImageButton.Source>
+                            </ImageButton>
+
+                            <ImageButton  WidthRequest="50" HeightRequest="40" 
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ChapterAudioPlayerViewModel}}, Path=PlayAudioCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="Fas" Glyph="{Binding MediaTogglePlayIcon}"></FontImageSource>
+                                </ImageButton.Source>
+                            </ImageButton>
+
+                            <ImageButton WidthRequest="35" HeightRequest="40"  Margin="10"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ChapterAudioPlayerViewModel}}, Path=Foward_15SecCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="Fas" Glyph="{x:Static icon:FontIcons.ArrowRotateRight}"></FontImageSource>
+                                </ImageButton.Source>
+                            </ImageButton>
+                            <ImageButton WidthRequest="40" HeightRequest="40" Margin="10"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ChapterAudioPlayerViewModel}}, Path=SkipForwardCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="Fas" Glyph="{x:Static icon:FontIcons.ForwardStep}"></FontImageSource>
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </StackLayout>
                     </Grid>
                 </Frame>
             </Grid>
@@ -46,16 +82,21 @@
                                 </Frame.GestureRecognizers>
                                 <Grid ColumnDefinitions="60*, 30*,auto">
                                     <Grid ColumnDefinitions="auto,*">
-                                        <Image WidthRequest="40" HeightRequest="40" VerticalOptions="StartAndExpand" Margin="5,0,0,0" Aspect="Fill" Source="kahaba.jpg"></Image>
-                                        <StackLayout VerticalOptions="Center" Margin="5,0,0,0" Grid.Column="1">
+                                        <Image WidthRequest="40" HeightRequest="40" VerticalOptions="CenterAndExpand" Margin="5,0,0,0" Aspect="Fill" Source="kahaba.jpg"></Image>
+                                        <StackLayout VerticalOptions="Center" Margin="7,0,0,0" Grid.Column="1">
                                             <Label FontSize="11" Text="{Binding Name}"></Label>
                                             <Label FontSize="11" TextColor="{StaticResource Gray600}" Text="{Binding EnglishName}"></Label>
-                                            <Label></Label>
                                         </StackLayout>
                                     </Grid>
                                     <Label VerticalOptions="Center" FontSize="10" Grid.Column="1" Text="{Binding Revelation}"></Label>
                                     <HorizontalStackLayout Grid.Column="2" WidthRequest="50">
-                                        <ImageButton WidthRequest="20" HeightRequest="20" Source="download.png"></ImageButton>
+                                        <ImageButton WidthRequest="20" HeightRequest="20" 
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ChapterAudioPlayerViewModel}}, Path=DownloadSurahAudioCommand}"
+                                                     CommandParameter="{Binding Id}">
+                                            <ImageButton.Source>
+                                                <FontImageSource FontFamily="Fas" Glyph="{x:Static icon:FontIcons.Download}"></FontImageSource>
+                                            </ImageButton.Source>
+                                        </ImageButton>
                                     </HorizontalStackLayout>
                                 </Grid>
                             </Frame>
@@ -64,5 +105,13 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
+
+        <ActivityIndicator
+            IsVisible="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="CenterAndExpand"
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"/>
     </Grid>
 </ContentPage>

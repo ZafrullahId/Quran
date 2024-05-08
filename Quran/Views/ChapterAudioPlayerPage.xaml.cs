@@ -12,34 +12,31 @@ public partial class ChapterAudioPlayerPage : ContentPage
         InitializeComponent();
         this.viewModel = viewModel;
         this.BindingContext = viewModel;
-        this.viewModel.Media = mediaElement;
-    }
-
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
+        //this.viewModel.SetMediaElement(mediaElement);
     }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
         await this.viewModel.LoadChapters();
+        await Task.Delay(1000);
+        await this.viewModel.LoadSurahToPlay();
 
     }
 
-    private void MediaElement_MediaEnded(object sender, EventArgs e)
+    private async void MediaElement_MediaEnded(object sender, EventArgs e)
     {
-        if (this.viewModel.ChapterNo >= 114)
-            this.viewModel.ChapterNo = 0;
-        else
-            this.viewModel.ChapterNo++;
-
-        this.viewModel.Media.Source = $"https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/{this.viewModel.ChapterNo}.mp3";
-        this.viewModel.Media.Play();
+        int chapterToPlayNext = this.viewModel.ChapterNo + 1;
+        await this.viewModel.PlayQuranAudio(chapterToPlayNext);
+        
     }
 
-    private async void mediaElement_MediaOpened(object sender, EventArgs e)
+    private void MediaElement_MediaOpened(object sender, EventArgs e)
     {
-        await this.viewModel.SetPrefrences();
+        this.viewModel.SetPreferences();
     }
 
+    //private void MediaElement_PositionChanged(object sender, MediaPositionChangedEventArgs e)
+    //{
+    //    viewModel.ResetMediaLastPlayedPosition();
+    //}
 }

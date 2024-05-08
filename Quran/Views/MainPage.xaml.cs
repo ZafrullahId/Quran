@@ -10,5 +10,6 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         _homeViewModel = homeViewModel;
         BindingContext = _homeViewModel;
+        homeViewModel.SetMediaElement(mediaElement);
     }
 }

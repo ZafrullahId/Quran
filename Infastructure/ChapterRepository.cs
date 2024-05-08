@@ -18,19 +18,19 @@ namespace Quran.Infrastructure
         }
         public async Task<ChaptersInfo> GetChaptersInfo()
         {
-            //var chaptersInfo = await _client.GetAsync("info.json");
-            //if (chaptersInfo.IsSuccessStatusCode)
-            //{
-            //    var content = await chaptersInfo.Content.ReadAsStringAsync();
-            //    var result = JsonConvert.DeserializeObject<ChaptersInfo>(content);
-            //    return result;
-            //}
-            //return null;
-            using var stream = await FileSystem.OpenAppPackageFileAsync("surahindex.json");
-            using var reader = new StreamReader(stream);
-            var contents = await reader.ReadToEndAsync();
-            var chaptersInfo = JsonConvert.DeserializeObject<ChaptersInfo>(contents);
-            return chaptersInfo;
+            var chaptersInfo = await _client.GetAsync("info.json");
+            if (chaptersInfo.IsSuccessStatusCode)
+            {
+                var content = await chaptersInfo.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<ChaptersInfo>(content);
+                return result;
+            }
+            return null;
+            //using var stream = await FileSystem.OpenAppPackageFileAsync("surahindex.json");
+            //using var reader = new StreamReader(stream);
+            //var contents = await reader.ReadToEndAsync();
+            //var chaptersInfo = JsonConvert.DeserializeObject<ChaptersInfo>(contents);
+            //return chaptersInfo;
         }
     }
 }

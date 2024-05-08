@@ -4,7 +4,8 @@
 		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+		<!-- <TargetFrameworks>$(TargetFrameworksusing Quran.Constants;
+);net8.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Quran</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -28,6 +29,10 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -54,6 +59,12 @@
 	  <None Remove="Resources\Fonts\Amiri-BoldItalic.ttf" />
 	  <None Remove="Resources\Fonts\Amiri-Italic.ttf" />
 	  <None Remove="Resources\Fonts\Amiri-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Brands-Regular-400.otf" />
+	  <None Remove="Resources\Fonts\FAB.otf" />
+	  <None Remove="Resources\Fonts\FAR.otf" />
+	  <None Remove="Resources\Fonts\FAS.otf" />
+	  <None Remove="Resources\Fonts\Free-Regular-400.otf" />
+	  <None Remove="Resources\Fonts\Free-Solid-900.otf" />
 	  <None Remove="Resources\Fonts\Lateef-Bold.ttf" />
 	  <None Remove="Resources\Fonts\Lateef-ExtraBold.ttf" />
 	  <None Remove="Resources\Fonts\Lateef-ExtraLight.ttf" />
@@ -62,10 +73,14 @@
 	  <None Remove="Resources\Fonts\Lateef-Regular.ttf" />
 	  <None Remove="Resources\Fonts\Lateef-SemiBold.ttf" />
 	  <None Remove="Resources\Images\background_verses.jpeg" />
+	  <None Remove="Resources\Images\back_time.png" />
 	  <None Remove="Resources\Images\bismillah_rahman_raheem.png" />
 	  <None Remove="Resources\Images\bismillah_rahman_raheem_croped.png" />
 	  <None Remove="Resources\Images\bookmark_icon.png" />
+	  <None Remove="Resources\Images\copyIcon.png" />
+	  <None Remove="Resources\Images\copyIConBold.png" />
 	  <None Remove="Resources\Images\download.png" />
+	  <None Remove="Resources\Images\forward_time.png" />
 	  <None Remove="Resources\Images\gear_settings.svg" />
 	  <None Remove="Resources\Images\hadith_book.png" />
 	  <None Remove="Resources\Images\kahaba.jpg" />
@@ -93,6 +108,7 @@
 	  <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="3.1.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 	  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
+	  <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -119,6 +135,12 @@
 	  <MauiXaml Update="Views\VersesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\FontAwesome\FAB.otf" />
+	  <EmbeddedResource Include="Resources\FontAwesome\FAR.otf" />
+	  <EmbeddedResource Include="Resources\FontAwesome\FAS.otf" />
 	</ItemGroup>
 
 	<Target Name="_ValidateMauiDoesNotHaveXamarinForms" BeforeTargets="_CheckForInvalidConfigurationAndPlatform" Condition="'$(MauiDisableXamarinFormsValidation)' != 'True'">

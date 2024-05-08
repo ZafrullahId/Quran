@@ -7,29 +7,32 @@
     <!-- Mdeia Start -->
 
     <Grid RowDefinitions="*,auto">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer x:Name="AudioSub"></TapGestureRecognizer>
+        </Grid.GestureRecognizers>
         <Grid ColumnDefinitions="auto,*">
             <Grid ColumnDefinitions="50,*">
                 <Image HeightRequest="50" Aspect="Fill" WidthRequest="50" Source="kahaba.jpg"></Image>
                 <StackLayout Grid.Column="1" VerticalOptions="Center" Margin="10,0">
-                    <Label Text="Yunus"></Label>
-                    <Label FontSize="11" TextColor="{StaticResource Gray500}" Text="Mishary Al-Afasy"></Label>
+                    <Label x:Name="palyedSurah" Text=""></Label>
+                    <Label x:Name="playedReciter" FontSize="11" TextColor="{StaticResource Gray500}" Text=""></Label>
                 </StackLayout>
             </Grid>
             <Grid Grid.Column="1">
                 <HorizontalStackLayout HorizontalOptions="EndAndExpand">
-                    <ImageButton x:Name="PlayBackBtton" Source="play_backward.png" WidthRequest="30"  Margin="5"></ImageButton>
-                    <ImageButton x:Name="PlayButton" Source="play_icon.png"  WidthRequest="60" Margin="5"></ImageButton>
+                    <ImageButton x:Name="PlayBackButton" Source="play_backward.png" WidthRequest="30"  Margin="5"></ImageButton>
+                    <ImageButton x:Name="PlayButton" Source="play_icon.png"  WidthRequest="60" Margin="5" Clicked="PlayButton_Clicked"></ImageButton>
                     <ImageButton x:Name="PlayForwardBtton" Source="play_forward.png" WidthRequest="30" Margin="5"></ImageButton>
                 </HorizontalStackLayout>
             </Grid>
         </Grid>
         <Grid Grid.Row="1" ColumnDefinitions="*,auto">
-            <ProgressBar x:Name="progressBar" Margin="0" Progress="0.5" ProgressColor="White"></ProgressBar>
             <Label Grid.Column="1" x:Name="playedTime" Text="00:00:00" Margin="10,0" HorizontalOptions="End"></Label>
         </Grid>
-        <toolkit:MediaElement x:Name="mediaElement"
-                      IsVisible="Hidden"
-                      ShouldAutoPlay="False"/>
+        <!--<toolkit:MediaElement x:Name="mediaElement"
+                          IsVisible="Hidden"
+                          ShouldAutoPlay="False"
+                                  PositionChanged="MediaElement_PositionChanged"/>-->
     </Grid>
 
 
